@@ -5,9 +5,19 @@
 	class Avaliador extends Professor
 	{
 		
-		function __construct(argument)
+		private $nota_TCC;
+
+		function __construct($nota_TCC)
 		{
-			# code...
+			$this->nota_TCC = $nota_TCC;
+		}
+
+		public function get_nota_TCC(){
+			return $this->nota_TCC;
+		}
+
+		public function set_nota_TCC($nota){
+			$this->nota = $nota_TCC;
 		}
 	}
 ?>
