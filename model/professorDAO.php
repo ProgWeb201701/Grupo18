@@ -1,30 +1,30 @@
 <?php
 
-	class ProfessorDAO {
+	//class ProfessorDAO {
 
-		function inserir_professor(){
-			$query = "INSERT INTO professor SET idProfessor=NULL, nome= ?,  instituicao= ?,  email= ?,  titulacao= ?, areaAtuacao=?";
-			$stmt = $mysqli->stmt_init();
-			$stmt->prepare($query);
-			$stmt->bind_param('sssssi', $nome_professor, $instituicao, $email, $titulacao, $area_atuacao, $id);
-			$nome = $_POST['nome'];
+	//	function inserir_professor(){
+			$mysqli = new mysqli("localhost","root","teste", "tcc");
+        	$query = "INSERT INTO professor SET idProfessor=NULL, nome= ?,  instituicao= ?,  email= ?,  titulacao= ?, area=?";
+        	$stmt = $mysqli->stmt_init();
+        	$stmt->prepare($query);
+        	$stmt->bind_param('sssss', $nome, $instituicao, $email, $titulacao, $area);
+        	$nome = $_POST['nome'];
 			$instituicao = $_POST['instituicao'];
 			$email = $_POST['email'];
 			$titulacao = $_POST['titulacao'];
-			$area_atuacao = $_POST['areaAtuacao'];
-			$id = $_POST['idProfessor'];
-			$stmt->execute();
-			$stmt->close();
-			$conexao->close();
-		}
+			$area = $_POST['area'];
+        	$stmt->execute();
+        	$stmt->close();
+        	$mysqli->close();
+/*		}
 
 		}
 
 		function editar_professor(){
-			$query = "UPDATE professor SET nome= ?,  instituicao= ?,  email= ?,  titulacao= ?, areaAtuacao=? WHERE idProfessor=?";
+			$query = "UPDATE professor SET nome= ?,  instituicao= ?,  email= ?,  titulacao= ?, area=? WHERE idProfessor=?";
 			$stmt = $mysqli->stmt_init();
 			$stmt->prepare($query);
-			$stmt->bind_param('sssssi', $nome_professor, $instituicao, $email, $titulacao, $area_atuacao, $id);
+			$stmt->bind_param('sssssi', $nome, $instituicao, $email, $titulacao, $area_atuacao, $id);
 			$nome = $_POST['nome'];
 			$instituicao = $_POST['instituicao'];
 			$email = $_POST['email'];
@@ -46,5 +46,5 @@
 			$stmt->close();
 			$conexao->close(); //fechando a conexão
 		}
-	}
+	}*/
 ?>

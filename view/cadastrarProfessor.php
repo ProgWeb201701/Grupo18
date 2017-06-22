@@ -32,7 +32,7 @@
 	<div class="editor-label"><label>Titulação</label></div>
 	<div class="editor-field"><input type="text" name="titulacao"></div>
     <div class="editor-label"><label>Área de Atuação</label></div>
-	<div class="editor-field"><input type="text" name="atuacao"></div>
+	<div class="editor-field"><input type="text" name="area"></div>
 	<br>
 	<div class="editor-field">
 		 <button id="save" type="submit" class="btn btn-success">Salvar
