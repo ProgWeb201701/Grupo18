@@ -1,0 +1,32 @@
+body{
+	font-family: calibri, verdana, tahoma;
+	width: 800px;
+}
+ol li{
+	margin-top: 20px;
+}
+fieldset{
+	border: thin orange solid;
+	margin-bottom: 10px;
+}
+legend{
+	border: thin orange solid;
+	padding: 2px 10px;
+	background-color: lightyellow;
+}
+textarea, input[type='number']{
+	border: thin orange solid;
+}
+input[type='submit']{
+	border: thin orange solid;
+	background-color: lightyellow;
+	padding: 3px 10px;
+	font-family: calibri, verdana, tahoma;
+	font-weight: bold;
+	font-size: medium;
+}
+#dados label{
+	float: left;
+	width: 80px;
+	font-weight: bold;
+}
