@@ -12,10 +12,10 @@
 
 <div class="navbar">
     <ul>
-        <li><a href="home.php">Home</a></li>
-        <li style="float:right"><a href="cadastrarTCC.php">Cadastrar TCC</a></li>
-		<li style="float:right"><a href="#">Visualizar TCC</a></li>
-        <li style="float:right"><a href="#" id="clique">Acompanhar Avaliação</a></li>
+        <li><a href="home.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+		<li><a href="#" id="clique">Acompanhar Avaliação</a></li>
+		<li><a href="viewTCC.php" id="clique">Visualizar TCC'S</a></li>
+        <li style="float:right">><a href="login.php"><span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
     </ul>
 </div>
 
@@ -33,7 +33,7 @@
 	while (list($idTcc, $titulo, $tema, $idAluno, $idOrientador) = $result->fetch_row()) {
     	echo "<tr><td>$idTcc</td><td>$titulo</td><td>$tema</td><td>$idAluno</td><td>$idOrientador</td>";
     	echo "<td>
-    	<a class='btn btn-default btn-sm' title='Editar' href='edit.php?id=$idTcc'><i class='glyphicon glyphicon-edit'></i></a>
+    	<a class='btn btn-default btn-sm' title='Editar' href='editarTCC.php?id=$idTcc'><i class='glyphicon glyphicon-edit'></i></a>
 		<a class='btn btn-default btn-sm' title='Excluir' href='delete.php?id=$idTcc'><i class='glyphicon glyphicon-trash'></i></a></td>";
     	echo "<tr>";
 	}

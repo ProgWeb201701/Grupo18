@@ -12,7 +12,7 @@
 <div class="navbar">
     <ul>
         <li><a href="home.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-        <li style="float:right">><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li style="float:right">><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         <li style="float:right">><a href="#"><span class="glyphicon glyphicon-user"></span> Cadastrar</a></li>
     </ul>
 </div>
