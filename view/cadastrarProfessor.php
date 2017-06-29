@@ -33,9 +33,11 @@
 	<div class="editor-field"><input type="text" name="titulacao"></div>
     <div class="editor-label"><label>Área de Atuação</label></div>
 	<div class="editor-field"><input type="text" name="area"></div>
+	<div class="editor-label"><label>Senha</label></div>
+	<div class="editor-field"><input type="text" name="senha"></div>
 	<br>
 	<div class="editor-field">
-		 <button id="save" type="submit" class="btn btn-success">Salvar
+		 <button id="save" name ="save" type="submit" class="btn btn-success">Salvar
 		 <i class='glyphicon glyphicon-floppy-disk'></i>
 		 </button>
 	</div>

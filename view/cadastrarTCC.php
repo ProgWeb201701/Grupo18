@@ -30,6 +30,27 @@
 	<div class="editor-field"><input type="text" name="instituicao"></div>
 	<div class="editor-label"><label>Coordenador</label></div>
 	<div class="editor-field"><input type="text" name="curso"></div>
+
+
+
+	<?php
+	$mysqli = new mysqli("localhost", "root", "teste", "tcc");
+	$query = "SELECT idProfessor, nome FROM professor";
+	$result = $mysqli->query($query, MYSQLI_STORE_RESULT)
+	?>
+
+	<select>
+    	<?php while($reg = $query->fetch_array()) { ?>
+        	<option value="<?php echo $reg['idProfessor']; ?>">
+            	<?php echo $reg['nome']; ?>
+        	</option>
+    	<?php } ?>
+	</select>
+
+
+
+
+
 	<br>
 	<div class="editor-field">
 		 <button id="save" type="submit" class="btn btn-success">Salvar

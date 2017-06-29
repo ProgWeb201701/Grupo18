@@ -29,9 +29,11 @@
 	<div class="editor-field"><input type="text" name="instituicao"></div>
 	<div class="editor-label"><label>Curso</label></div>
 	<div class="editor-field"><input type="text" name="curso"></div>
+	<div class="editor-label"><label>Senha</label></div>
+	<div class="editor-field"><input type="text" name="senha"></div>
 	<br>
 	<div class="editor-field">
-		 <button id="save" type="submit" class="btn btn-success">Salvar
+		 <button id="save" name="save" type="submit" class="btn btn-success">Salvar
 		 <i class='glyphicon glyphicon-floppy-disk'></i>
 		 </button>
 	</div>

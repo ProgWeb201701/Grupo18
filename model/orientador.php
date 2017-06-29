@@ -5,7 +5,7 @@
 	class Orientador extends Professor
 	{
 		
-		function __construct(argument)
+		function __construct()
 		{
 			# code...
 		}

@@ -1,49 +1,84 @@
 <?php
 
-	include_once 'C:/wamp64/www/Web/conexao.php';
-	/**
-	* 
-	*/
-	class AlunoDAO{
-		$conexao = new Conexao();
-		$conexao->conexao_banco();
+function get_post_action($name)
+{
+    $params = func_get_args();
+                
+    foreach ($params as $name) {
+        if (isset($_POST[$name])) {
+            return $name;
+        }
+    }
+}
 
-		public function inserir_tcc(){
-			$query = "INSERT INTO aluno SET idTCC=NULL, titulo= ?,  tema= ?";
-			$stmt = $mysqli->stmt_init();
-			$stmt->prepare($query);
-			$stmt->bind_param('ssi', $titulo, $tema, $id);
-			$titulo = $_POST['titulo'];
-			$tema = $_POST['tema'];
-			$id = $_POST['idTCC'];
-			$stmt->close();
-			$conexao->close();
-		}
+switch (get_post_action('save', 'edit', 'delet')) {
+    case 'save':
+        $tcc = new TccDao;
+        $tcc->inserir_tcc();
+        break;
 
-		}
+    case 'edit':
+        $tcc = new TccDao;
+        $tcc->editar_tcc();
+        break;
 
-		public function editar_tcc($id){
-			$query = "UPDATE aluno SET nome=?, matricula=?, curso=?, instituicao=? WHERE idTCC=?";
-			$stmt = $mysqli->stmt_init();
-			$stmt->prepare($query);
-			$stmt->bind_param('ssi', $titulo, $tema, $id);
-			$titulo = $_POST['titulo'];
-			$tema = $_POST['tema'];
-			$id = $_POST['idTCC'];
-			$stmt->execute();
-			$stmt->close();
-			$conexao->close(); //fechando a conexão
-		}
+    case 'delet':
+        $tcc = new TccDao;
+        $tcc->deletar_tcc();
+        break;
 
-		public function deletar_tcc($id){
-			$query = "DELETE FROM aluno WHERE idTCC=?";
-			$stmt = $mysqli->stmt_init();
-			$stmt->prepare($query);
-			$stmt->bind_param('i', $id);
-			$id = $_GET['idTCC'];
-			$stmt->execute();
-			$stmt->close();
-			$conexao->close(); //fechando a conexão
-		}
-	}
-?>
+    default:
+}
+
+class TccDAO
+{
+
+
+    public function inserir_tcc()
+    {
+        $mysqli = new mysqli("localhost", "root", "teste", "tcc");
+        $query = "INSERT INTO tcc SET idTcc=NULL, titulo= ?,  tema= ?, idOrientador= ?, idOrientando= ?";
+        $stmt = $mysqli->stmt_init();
+        $stmt->prepare($query);
+        $stmt->bind_param('ssii', $titulo, $tema, $idOrientador, $idOrientando);
+        $titulo = $_POST['titulo'];
+        $tema = $_POST['tema'];
+        $idOrientador = $_POST['idOrientador'];
+        $idOrientando = $_POST['idOrientando'];
+        $id = $_POST['idTcc'];
+        $stmt->execute();
+        $stmt->close();
+        $mysqli->close();
+    }
+
+    public function editar_tcc()
+    {
+        $mysqli = new mysqli("localhost", "root", "teste", "tcc");
+        $query = "UPDATE tcc SET titulo=?, tema=? WHERE idTcc=?";
+        $stmt = $mysqli->stmt_init();
+        $stmt->prepare($query);
+        $stmt->bind_param('ssi', $titulo, $tema, $id);
+        $titulo = $_POST['titulo'];
+        $tema = $_POST['tema'];
+        $id = $_POST['id'];
+        $stmt->execute();
+        $stmt->close();
+        $mysqli->close();
+        header("Location: ../view/viewTCC.php");
+    }
+
+    public function deletar_tcc()
+    {
+
+        $mysqli = new mysqli("localhost", "root", "teste", "tcc");
+        $query = "DELETE FROM tcc WHERE idTcc=?";
+        $stmt = $mysqli->stmt_init();
+        $stmt->prepare($query);
+        $stmt->bind_param('i', $id);
+        $id = $_GET['id'];
+        $stmt->execute();
+        $stmt->close();
+        $mysqli->close();
+       	header("Location: ../view/viewTCC.php");
+    }
+}

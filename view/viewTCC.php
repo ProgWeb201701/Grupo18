@@ -33,8 +33,8 @@
 	while (list($idTcc, $titulo, $tema, $idAluno, $idOrientador) = $result->fetch_row()) {
     	echo "<tr><td>$idTcc</td><td>$titulo</td><td>$tema</td><td>$idAluno</td><td>$idOrientador</td>";
     	echo "<td>
-    	<a class='btn btn-default btn-sm' title='Editar' href='editarTCC.php?id=$idTcc'><i class='glyphicon glyphicon-edit'></i></a>
-		<a class='btn btn-default btn-sm' title='Excluir' href='delete.php?id=$idTcc'><i class='glyphicon glyphicon-trash'></i></a></td>";
+    	<a class='btn btn-default btn-sm' name ='edit' title='Editar' href='editarTCC.php?id=$idTcc'><i class='glyphicon glyphicon-edit'></i></a>
+		<a class='btn btn-default btn-sm' name ='delet' title='Deletar' href='excluirTCC.php?id=$idTcc'><i class='glyphicon glyphicon-trash'></i></a></td>";
     	echo "<tr>";
 	}
 	echo "<tr><td colspan='3'>Total de registros</td><td>$mysqli->affected_rows</td></tr>";
