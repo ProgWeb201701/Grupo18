@@ -4,14 +4,11 @@
 <head>
 	<title></title>
 	<meta charset="utf-8"/>
-	<link rel="stylesheet" href="../css/bootstrap.min.css">
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function($) {
-			
-		});
-	</script>
+	<meta charset="utf-8">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../css/estilo.css">
+	<script src="../js/jquery.js" type="text/javascript"></script>
+
 </head>
 <body>
 <?php

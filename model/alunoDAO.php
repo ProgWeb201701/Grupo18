@@ -1,5 +1,7 @@
 <?php
 
+include_once('../data.base.connection/DBConnection.php');
+
 function get_post_action($name)
 {
     $params = func_get_args();
@@ -37,51 +39,63 @@ class AlunoDAO
     
     public function inserir_aluno()
     {
-        ini_set('display_errors', 1);
-        $mysqli = new mysqli("localhost","root","teste", "tcc");
-        $query = "INSERT INTO orientando SET idAluno=NULL, nome= ?,  matricula= ?,  curso= ?,  instituicao= ?, senha= ?";
-        $stmt = $mysqli->stmt_init();
+        ini_set('display_errors', 1);    
+        $connection = DBConnection::open();
+        
+
+        $query2 = "INSERT INTO usuario SET idUsuario=NULL, user= ?, senha=?, niveldeacesso=?";
+        $stmt = $connection->stmt_init();
+        $stmt->prepare($query2);
+        $stmt->bind_param('isi', $user, $senha, $niveldeacesso);
+        $user = $_POST['matricula'];
+        $senha = $_POST['senha'];
+        $niveldeacesso = 1;
+        $stmt->close();
+
+        $query = "INSERT INTO orientando SET idAluno=NULL, nome= ?,  matricula= ?,  curso= ?,  instituicao= ?, idUsuario=?";
         $stmt->prepare($query);
-        $stmt->bind_param('sisss', $nome, $matricula, $curso, $instituicao, $senha);
+        $stmt->bind_param('sissi', $nome, $matricula, $curso, $instituicao, $idUsuario);
         $nome = $_POST['nome'];
         $matricula = $_POST['matricula'];
         $curso = $_POST['curso'];
         $instituicao = $_POST['instituicao'];
-        $senha = $_POST['senha'];
+        $idUsuario = $res;
         $stmt->execute();
+
         $stmt->close();
-        $mysqli->close();
-        header("Location: ../login.php");
+        $connection->close();
+        //header("Location: ../view/Login/LoginView.html");
+        
 
     }
 
-    public function editar_aluno($id)
+    public function editar_aluno()
     {
         ini_set('display_errors', 1);
-        $mysqli = new mysqli("localhost","root","teste", "tcc");
-        $query = "UPDATE orientando SET nome= ?,  matricula= ?,  curso= ?,  instituicao= ?, senha= ? WHERE idAluno=?";
-        $stmt = $mysqli->stmt_init();
+        $connection = DBConnection::open();
+        $query = "UPDATE orientando SET nome= ?,  matricula= ?,  curso= ?,  instituicao= ? WHERE idAluno=?";
+        $stmt = $connection->stmt_init();
         $stmt->prepare($query);
         $stmt->bind_param('siss', $nome, $matricula, $curso, $instituicao);
         $nome = $_POST['nome'];
         $matricula = $_POST['matricula'];
         $curso = $_POST['curso'];
         $instituicao = $_POST['instituicao'];
-        $senha = $_POST['senha'];
         $stmt->execute();
         $stmt->close();
-        $mysqli->close();
+        $connection->close();
     }
 
-    public function deletar_aluno($id)
+    public function deletar_aluno()
     {
+        $connection = DBConnection::open();
         $query = "DELETE FROM orientando WHERE idAluno=?";
-        $stmt = $mysqli->stmt_init();
+        $stmt = $connection->stmt_init();
         $stmt->prepare($query);
         $stmt->bind_param('i', $id);
         $id = $_GET['id'];
         $stmt->execute();
         $stmt->close();
-        $conexao->close(); //fechando a conexão
+        $connection->close();
     }
 }

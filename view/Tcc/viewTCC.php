@@ -5,7 +5,7 @@
 	<meta charset="utf-8"/>
 	<meta charset="utf-8">
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="../estilo.css">
+	<link rel="stylesheet" type="text/css" href="../css/estilo.css">
 	<script src="../js/jquery.js" type="text/javascript"></script>
 </head>
 <body>
@@ -32,10 +32,10 @@
 	echo "<tr><th>ID</th><th>Titulo</th><th>Tema</th><th>Orientando</th><th>Orientador</th><th>Ações</th></tr>";
 	while (list($idTcc, $titulo, $tema, $idAluno, $idOrientador) = $result->fetch_row()) {
     	echo "<tr><td>$idTcc</td><td>$titulo</td><td>$tema</td><td>$idAluno</td><td>$idOrientador</td>";
-    	echo "<td>
+    	echo"<td>
     	<a class='btn btn-default btn-sm' name ='edit' title='Editar' href='editarTCC.php?id=$idTcc'><i class='glyphicon glyphicon-edit'></i></a>
-		<a class='btn btn-default btn-sm' name ='delet' title='Deletar' href='excluirTCC.php?id=$idTcc'><i class='glyphicon glyphicon-trash'></i></a></td>";
-    	echo "<tr>";
+		<a class='btn btn-default btn-sm' method='POST' name ='delet' title='Deletar' href='excluirTCC.php?id=$idTcc'><i class='glyphicon glyphicon-trash'></i></a></td>";
+		echo "<tr>";
 	}
 	echo "<tr><td colspan='3'>Total de registros</td><td>$mysqli->affected_rows</td></tr>";
 	echo "</table>";

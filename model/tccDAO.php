@@ -1,4 +1,7 @@
 <?php
+include_once('./orientador.php');
+include_once('./avaliador.php');
+include_once('../data.base.connection/DBConnection.php');
 
 function get_post_action($name)
 {
@@ -13,17 +16,17 @@ function get_post_action($name)
 
 switch (get_post_action('save', 'edit', 'delet')) {
     case 'save':
-        $tcc = new TccDao;
+        $tcc = new TccDAO;
         $tcc->inserir_tcc();
         break;
 
     case 'edit':
-        $tcc = new TccDao;
+        $tcc = new TccDAO;
         $tcc->editar_tcc();
         break;
 
     case 'delet':
-        $tcc = new TccDao;
+        $tcc = new TccDAO;
         $tcc->deletar_tcc();
         break;
 
@@ -37,34 +40,50 @@ class TccDAO
     public function inserir_tcc()
     {
         $mysqli = new mysqli("localhost", "root", "teste", "tcc");
-        $query = "INSERT INTO tcc SET idTcc=NULL, titulo= ?,  tema= ?, idOrientador= ?, idOrientando= ?";
+        $query = "INSERT INTO tcc SET titulo= ?,  tema= ?, idOrientador= ?, idAluno=?, idAvaliador=?";
         $stmt = $mysqli->stmt_init();
         $stmt->prepare($query);
-        $stmt->bind_param('ssii', $titulo, $tema, $idOrientador, $idOrientando);
+        $stmt->bind_param('ssiii', $titulo, $tema, $idOrientador, $idAluno, $idAvaliador);
         $titulo = $_POST['titulo'];
         $tema = $_POST['tema'];
-        $idOrientador = $_POST['idOrientador'];
-        $idOrientando = $_POST['idOrientando'];
-        $id = $_POST['idTcc'];
+        $convert = new Orientador();
+        $idOrientador = $convert->setId($_POST['idOrientador']);
+        $idOrientador = $convert->save($mysqli);
+        $idOrientador = $convert->findIdOrientador($mysqli);
+        $idAluno = $_POST['idAluno'];
+        $convertAva = new Avaliador();
+        $idAvaliador = $convertAva->setId($_POST['idAvaliador']);
+        $idAvaliador = $convertAva->save($mysqli);
+        $idAvaliador = $convertAva->findIdAvaliador($mysqli);
         $stmt->execute();
         $stmt->close();
         $mysqli->close();
+        header("../../view/Tcc/cadastrarTCC.php");
     }
 
     public function editar_tcc()
     {
         $mysqli = new mysqli("localhost", "root", "teste", "tcc");
-        $query = "UPDATE tcc SET titulo=?, tema=? WHERE idTcc=?";
+        $query = "UPDATE tcc SET titulo= ?,  tema= ?, idOrientador= ?, idAluno=?, idAvaliador=? WHERE idTcc=?";
         $stmt = $mysqli->stmt_init();
         $stmt->prepare($query);
-        $stmt->bind_param('ssi', $titulo, $tema, $id);
+        $stmt->bind_param('ssiiii', $titulo, $tema, $idOrientador, $idAluno, $idAvaliador, $id);
         $titulo = $_POST['titulo'];
-        $tema = $_POST['tema'];
         $id = $_POST['id'];
+        $tema = $_POST['tema'];
+        $convert = new Orientador();
+        $idOrientador = $convert->setId($_POST['idOrientador']);
+        $idOrientador = $convert->save($mysqli);
+        $idOrientador = $convert->findIdOrientador($mysqli);
+        $idAluno = $_POST['idAluno'];
+        $convertAva = new Avaliador();
+        $idAvaliador = $convertAva->setId($_POST['idAvaliador']);
+        $idAvaliador = $convertAva->save($mysqli);
+        $idAvaliador = $convertAva->findIdAvaliador($mysqli);
         $stmt->execute();
         $stmt->close();
         $mysqli->close();
-        header("Location: ../view/viewTCC.php");
+        header("../../view/Tcc/cadastrarTCC.php");
     }
 
     public function deletar_tcc()
@@ -79,6 +98,6 @@ class TccDAO
         $stmt->execute();
         $stmt->close();
         $mysqli->close();
-       	header("Location: ../view/viewTCC.php");
+       	//header("Location: ../view/Tcc/viewTCC.php");
     }
 }

@@ -7,7 +7,7 @@
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" href="../css/bootstrap.min.css">
 	<script src="../js/jquery.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="../estilo.css">
+	<link rel="stylesheet" type="text/css" href="../css/estilo.css">
 	<script src="../js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function($) {
@@ -19,7 +19,7 @@
 <div class="navbar">
     <ul>
         <li><a href="home.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-		<li><a href=""><span class="glyphicon glyphicon-upload"></span> Submeter</a></li>
+		<li><a href="../submeter.php"><span class="glyphicon glyphicon-upload"></span> Submeter</a></li>
         <li style="float:right">><a href="../login.php"><span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
 		<li style="float:right">><a href="editarAluno.php"><span class="glyphicon glyphicon-edit"></span> Editar</a></li>
     </ul>
@@ -40,18 +40,18 @@ if ($result->num_rows > 0) {
 	}
 }
 ?>
-<div class="container">
+<div class="container" align='center'>
 	<h2>Dados do Cliente</h2>
-	<form method="POST" action="../model/alunoDAO.php">
+	<form method="POST" action="../../model/alunoDAO.php">
 	<input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
 	<div class="editor-label"><label>Nome</label></div>
-	<div class="editor-field"><input type="text" name="nome" value="<?php echo htmlspecialchars($nome); ?>"></div>
+	<div class="editor-field"><label><input class="form-control" type="text" name="nome" value="<?php echo htmlspecialchars($nome); ?>"></label></div>
 	<div class="editor-label"><label>Matricula</label></div>
-	<div class="editor-field"><input type="text" name="matricula" value="<?php echo htmlspecialchars($matricula); ?>"></div>
+	<div class="editor-field"><label><input class="form-control" type="text" name="matricula" value="<?php echo htmlspecialchars($matricula); ?>"></label></div>
     <div class="editor-label"><label>Curso</label></div>
-	<div class="editor-field"><input type="text" name="curso" value="<?php echo htmlspecialchars($curso); ?>"></div>
+	<div class="editor-field"><label><input class="form-control" type="text" name="curso" value="<?php echo htmlspecialchars($curso); ?>"></label></div>
     <div class="editor-label"><label>Instituição</label></div>
-	<div class="editor-field"><input type="text" name="instituicao" value="<?php echo htmlspecialchars($instituicao); ?>"></div>
+	<div class="editor-field"><label><input class="form-control" type="text" name="instituicao" value="<?php echo htmlspecialchars($instituicao); ?>"></label></div>
 	<br>
 	<div class="editor-field">
 		 <button id="edit" name="edit" type="submit" class="btn btn-success" value='Atualizar'>Salvar

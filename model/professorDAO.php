@@ -1,5 +1,7 @@
 <?php
 
+include_once('../data.base.connection/DBConnection.php');
+
 function get_post_action($name)
 {
         $params = func_get_args();
