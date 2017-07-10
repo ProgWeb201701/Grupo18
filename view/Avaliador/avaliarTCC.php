@@ -40,28 +40,38 @@
     </ul>
   </div>
 </nav>
-
-<div class="container">
-<h2>TCC</h2>
-<br>
 <?php
-  session_start();
-  $user = $_SESSION['user'];
 
-	ini_set('display_errors', 1);
-	$mysqli = new mysqli("localhost", "root", "teste", "tcc");
-	$query = "SELECT codigo, arquivo, arquivo.matricula, titulo,orientando.nome FROM tcc INNER JOIN arquivo INNER JOIN orientando ON arquivo.matricula = tcc.aluno AND tcc.aluno = orientando.matricula AND tcc.idAvaliador = $user OR tcc.idAvaliador2 = $user";
-	$result = $mysqli->query($query, MYSQLI_STORE_RESULT);
-	echo "<table class='table table-striped table-responsive table-condensed'>";
-	echo "<tr><th>TCC</th><th>PDF</th><th>Orientando</th><th>Avaliar</th></tr>";
-	while (list($codigo, $arquivo, $matricula, $titulo, $orientando) = $result->fetch_row()) {
-    	echo "<tr><td>$titulo</td><td><a href=\"" . "../../upload/". $arquivo . "\">" . $arquivo . "</a></td><td>$orientando</td>";
-    	echo"<td>
-    	<a class='btn btn-default btn-sm' name ='edit' title='Avaliar' href='avaliarTCC.php?id=$matricula'><i class='glyphicon glyphicon-edit'></i></a></td>";
-		echo "<tr>";
+$id = $_GET['id'];
+session_start();
+include_once('../../data.base.connection/DBConnection.php');
+$connection = DBConnection::open();
+$query = "SELECT idTcc FROM tcc WHERE aluno=$id";
+$result = $connection->query($query,MYSQLI_STORE_RESULT);
+if ($result->num_rows > 0) {
+	while ($row = $result->fetch_assoc()) {
+        $idTcc = $row['idTcc'];
 	}
-	echo "</table>";
-	$result->close();
+}
+$_SESSION['idTcc'] = $idTcc;
+
 ?>
+<div class="container" align='center'>
+    <h2>Avaliação de TCC</h2>
+    <form method="POST" action="salvarAvaliacao.php" enctype="multipart/form-data">
+    <div class="editor-label"><label>Nota</label></div>
+    <div class="editor-field"><label><input class="form-control" required type="number" name="nota" max="10.0" min="0.0" value="" step="0.10"></label></div>
+    <div class="editor-label"><label>Parecer</label></div>
+    <div class="editor-field"><label><input type="text" class="form-control" required name="parecer" value=""></input></div>
+    <div class="editor-label"><label>Comentários:</label></div>
+    <div class="editor-field"><label><input type="file" name="arquivo"></label></div>
+    <br>
+    <div class="editor-field">
+         <button id="edit" name="enviar" type="submit" class="btn btn-success" value='Enviar'>Salvar
+         <i class='glyphicon glyphicon-floppy-disk'></i>
+         </button>
+    </div>
+    </form>
 </div>
 </body>
+</html>

@@ -9,35 +9,16 @@ $user = $_SESSION['user'];
 
 
 if (isset($_FILES['arquivo'])) {
-    //$extensao = strtolower(substr($_FILES['arquivo']['name'], -4));
     $nome = $_FILES['arquivo']['name'];
-    //$nome = str_replace(" ", "_", $nome);
-    //$nome = str_replace("ç", "c", $nome);
 
-    $diretorio = "../../upload/";
-
-    //$nome = strtolower(substr($_FILES['arquivo']['name'], 0, -4));
+    $diretorio = "../../mono/";
 
     if (move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio.$nome)) {
-       // echo "Arquivo Submetido";
     } 
-
-    $sql = "INSERT INTO arquivo (codigo, arquivo, matricula) VALUES(null, '$nome', $user)";
-
-            
-    if ($connection->query($sql)) {
-        $mgs = "Arquivo enviado com sucesso";
-    } else {
-        $msg = "Falha ao enviar arquivo";
-    }
 }
         
 $connection->close();
 ?>
-
-<?php if ($msg != false) {
-    echo "<p> $msg </p>";
-} ?>
 
 <html>
 <head>
@@ -81,7 +62,7 @@ $connection->close();
 
 <div class="container">
     <div class="formulario">
-    <h2>Submeter Versão Final da Monografia</h2><br/>
+    <h2>Submeter Monografia</h2><br/>
     <form action="submeter.php" method="POST" enctype="multipart/form-data">
     <div class="editor-label"><label>Arquivo:</label></div>
     <div class="editor-field"><label><input type="file" required name="arquivo"></label></div>

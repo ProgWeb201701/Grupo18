@@ -27,15 +27,15 @@
 		}
 
 		public function get_email(){
-			return $this->email
+			return $this->email;
 		}
 
 		public function get_titulacao(){
-			return $this->titulacao
+			return $this->titulacao;
 		}
 
 		public function get_are_atuacao(){
-			return $this->area_atuacao
+			return $this->area_atuacao;
 		}
 
 		public function set_nome_professor($nome){

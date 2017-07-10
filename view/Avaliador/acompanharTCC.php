@@ -41,27 +41,29 @@
   </div>
 </nav>
 
+
 <div class="container">
 <h2>TCC</h2>
 <br>
 <?php
   session_start();
   $user = $_SESSION['user'];
-
 	ini_set('display_errors', 1);
 	$mysqli = new mysqli("localhost", "root", "teste", "tcc");
-	$query = "SELECT codigo, arquivo, arquivo.matricula, titulo,orientando.nome FROM tcc INNER JOIN arquivo INNER JOIN orientando ON arquivo.matricula = tcc.aluno AND tcc.aluno = orientando.matricula AND tcc.idAvaliador = $user OR tcc.idAvaliador2 = $user";
+	$query = "SELECT tcc.idTcc, titulo, tema, nota, parecer, comentarios, orientando.nome FROM tcc LEFT JOIN avaliacao ON tcc.idTcc = avaliacao.idTcc INNER JOIN orientando ON tcc.aluno = orientando.matricula AND tcc.idAvaliador = $user OR tcc.idAvaliador2 = $user";
 	$result = $mysqli->query($query, MYSQLI_STORE_RESULT);
 	echo "<table class='table table-striped table-responsive table-condensed'>";
-	echo "<tr><th>TCC</th><th>PDF</th><th>Orientando</th><th>Avaliar</th></tr>";
-	while (list($codigo, $arquivo, $matricula, $titulo, $orientando) = $result->fetch_row()) {
-    	echo "<tr><td>$titulo</td><td><a href=\"" . "../../upload/". $arquivo . "\">" . $arquivo . "</a></td><td>$orientando</td>";
-    	echo"<td>
-    	<a class='btn btn-default btn-sm' name ='edit' title='Avaliar' href='avaliarTCC.php?id=$matricula'><i class='glyphicon glyphicon-edit'></i></a></td>";
-		echo "<tr>";
+	echo "<tr><th>Titulo</th><th>Tema</th><th>Orientando</th><th>Nota</th><th>Parecer</th><th>Comentários</th></tr>";
+	while (list($idTcc, $titulo, $tema, $nota, $parecer, $comentarios, $aluno) = $result->fetch_row()) {
+
+
+    	echo"<tr><td>$titulo</td><td>$tema</td><td>$aluno</td><td>$nota</td><td>$parecer</td><td><a href=\"" . "../../comentarios/". $comentarios . "\">" . $comentarios . "</a></td>";
+    	
+		
 	}
 	echo "</table>";
 	$result->close();
 ?>
+
 </div>
 </body>

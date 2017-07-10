@@ -40,64 +40,66 @@ class TccDAO
     public function inserir_tcc()
     {
         $mysqli = new mysqli("localhost", "root", "teste", "tcc");
-        $query = "INSERT INTO tcc SET titulo= ?,  tema= ?, idOrientador= ?, idAluno=?, idAvaliador=?";
+        $query = "INSERT INTO tcc SET titulo= ?,  tema= ?, idOrientador= ?, aluno=?, idAvaliador=?, idAvaliador2=?";
         $stmt = $mysqli->stmt_init();
         $stmt->prepare($query);
-        $stmt->bind_param('ssiii', $titulo, $tema, $idOrientador, $idAluno, $idAvaliador);
+        $stmt->bind_param('ssiiii', $titulo, $tema, $idOrientador, $aluno, $idAvaliador, $idAvaliador2);
         $titulo = $_POST['titulo'];
         $tema = $_POST['tema'];
-        $convert = new Orientador();
-        $idOrientador = $convert->setId($_POST['idOrientador']);
-        $idOrientador = $convert->save($mysqli);
-        $idOrientador = $convert->findIdOrientador($mysqli);
-        $idAluno = $_POST['idAluno'];
-        $convertAva = new Avaliador();
-        $idAvaliador = $convertAva->setId($_POST['idAvaliador']);
-        $idAvaliador = $convertAva->save($mysqli);
-        $idAvaliador = $convertAva->findIdAvaliador($mysqli);
+        $save = new Orientador();
+        $idOrientador = $save->save($mysqli, $_POST['idOrientador']);
+        $idOrientador = $_POST['idOrientador'];
+        $aluno = $_POST['aluno'];
+        $saveAva = new Avaliador();
+        $idAvaliador = $saveAva->save($mysqli, $_POST['idAvaliador']);
+        $idAvaliador = $_POST['idAvaliador'];
+        $saveAva2 = new Avaliador();
+        $idAvaliador2 = $saveAva2->save($mysqli, $_POST['idAvaliador2']);
+        $idAvaliador2 = $_POST['idAvaliador2'];
         $stmt->execute();
         $stmt->close();
         $mysqli->close();
-        header("../../view/Tcc/cadastrarTCC.php");
+        header("Location: ../view/Tcc/viewTCC.php");
     }
 
     public function editar_tcc()
-    {
+    {   
+        session_start();
+        $idTcc = $_SESSION['idTcc'];
         $mysqli = new mysqli("localhost", "root", "teste", "tcc");
-        $query = "UPDATE tcc SET titulo= ?,  tema= ?, idOrientador= ?, idAluno=?, idAvaliador=? WHERE idTcc=?";
+        $query = "UPDATE tcc SET titulo= ?,  tema= ?, idOrientador= ?, aluno=?, idAvaliador=?, idAvaliador2=? WHERE idTcc=$idTcc";
         $stmt = $mysqli->stmt_init();
         $stmt->prepare($query);
-        $stmt->bind_param('ssiiii', $titulo, $tema, $idOrientador, $idAluno, $idAvaliador, $id);
+        $stmt->bind_param('ssiiii', $titulo, $tema, $idOrientador, $aluno, $idAvaliador, $idAvaliador2);
         $titulo = $_POST['titulo'];
-        $id = $_POST['id'];
         $tema = $_POST['tema'];
-        $convert = new Orientador();
-        $idOrientador = $convert->setId($_POST['idOrientador']);
-        $idOrientador = $convert->save($mysqli);
-        $idOrientador = $convert->findIdOrientador($mysqli);
-        $idAluno = $_POST['idAluno'];
-        $convertAva = new Avaliador();
-        $idAvaliador = $convertAva->setId($_POST['idAvaliador']);
-        $idAvaliador = $convertAva->save($mysqli);
-        $idAvaliador = $convertAva->findIdAvaliador($mysqli);
+        $save = new Orientador();
+        $idOrientador = $save->save($mysqli, $_POST['idOrientador']);
+        $idOrientador = $_POST['idOrientador'];
+        $aluno = $_POST['aluno'];
+        $saveAva = new Avaliador();
+        $idAvaliador = $saveAva->save($mysqli, $_POST['idAvaliador']);
+        $idAvaliador = $_POST['idAvaliador'];
+        $saveAva2 = new Avaliador();
+        $idAvaliador2 = $saveAva->save($mysqli, $_POST['idAvaliador2']);
+        $idAvaliador2 = $_POST['idAvaliador2'];
         $stmt->execute();
         $stmt->close();
         $mysqli->close();
-        header("../../view/Tcc/cadastrarTCC.php");
+        header("Location: ../view/Tcc/viewTCC.php");
     }
 
     public function deletar_tcc()
     {
-
+        session_start();
+        $idTcc = $_SESSION['idTcc'];
         $mysqli = new mysqli("localhost", "root", "teste", "tcc");
-        $query = "DELETE FROM tcc WHERE idTcc=?";
+        $query = "DELETE FROM tcc WHERE idTcc= $idTcc";
         $stmt = $mysqli->stmt_init();
         $stmt->prepare($query);
-        $stmt->bind_param('i', $id);
-        $id = $_GET['id'];
         $stmt->execute();
         $stmt->close();
         $mysqli->close();
-       	//header("Location: ../view/Tcc/viewTCC.php");
+       	header("Location: ../view/Tcc/viewTCC.php");
     }
 }

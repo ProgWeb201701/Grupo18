@@ -1,6 +1,7 @@
 <?php
 
 include_once('../data.base.connection/DBConnection.php');
+include_once('../model/usuario.php');
 
 function get_post_action($name)
 {
@@ -38,51 +39,66 @@ class ProfessorDAO
     function inserir_professor()
     {
         $mysqli = new mysqli("localhost", "root", "teste", "tcc");
-        $query = "INSERT INTO professor SET idProfessor=NULL, nome= ?,  instituicao= ?,  email= ?,  titulacao= ?, area=?, senha =?";
+        $query = "INSERT INTO professor SET siap= ?, nome= ?,  instituicao= ?,  email= ?,  titulacao= ?, area=?";
         $stmt = $mysqli->stmt_init();
         $stmt->prepare($query);
-        $stmt->bind_param('ssssss', $nome, $instituicao, $email, $titulacao, $area, $senha);
+        $stmt->bind_param('isssss', $siap, $nome, $instituicao, $email, $titulacao, $area);
+        $siap = $_POST['siap'];
         $nome = $_POST['nome'];
         $instituicao = $_POST['instituicao'];
         $email = $_POST['email'];
         $titulacao = $_POST['titulacao'];
         $area = $_POST['area'];
-        $senha = $_POST['senha'];
         $stmt->execute();
         $stmt->close();
         $mysqli->close();
-        header("Location: ../login.php");
+
+        $senha = $_POST['senha'];
+        $nivel = 2;
+        $usuario = new Usuario();
+        $usuario->inserirUsuario($siap, $senha, $nivel);
+        header("Location: ../view/Login/login.html");
     }
 
     function editar_professor()
     {
+        session_start();
+        $user = $_SESSION['user'];
         $mysqli = new mysqli("localhost", "root", "teste", "tcc");
-        $query = "UPDATE professor SET nome= ?,  instituicao= ?,  email= ?,  titulacao= ?, area=?, senha=? WHERE idProfessor=?";
+        $query = "UPDATE professor SET nome= ?,  instituicao= ?,  email= ?,  titulacao= ?, area=? WHERE siap=$user";
         $stmt = $mysqli->stmt_init();
         $stmt->prepare($query);
-        $stmt->bind_param('sssssis', $nome, $instituicao, $email, $titulacao, $area_atuacao, $id, $senha);
+        $stmt->bind_param('sissi', $nome, $instituicao, $email, $titulacao, $area);
         $nome = $_POST['nome'];
         $instituicao = $_POST['instituicao'];
         $email = $_POST['email'];
         $titulacao = $_POST['titulacao'];
-        $area_atuacao = $_POST['area'];
-        $id = $_POST['id'];
-        $senha = $_POST['senha'];
+        $area = $_POST['area'];
         $stmt->execute();
         $stmt->close();
         $mysqli->close(); //fechando a conexão
+        header("Location: ../view/Professor/editarUsuario.php");
     }
 
     function deletar_professor()
     {
-        $mysqli = new mysqli("localhost", "root", "teste", "tcc");
-        $query = "DELETE FROM professor WHERE idProfessor=?";
-        $stmt = $mysqli->stmt_init();
+
+        session_start();
+        $user = $_SESSION['user'];
+        $connection = DBConnection::open();
+        $query = "DELETE FROM professor WHERE siap=$user";
+        $stmt = $connection->stmt_init();
         $stmt->prepare($query);
-        $stmt->bind_param('i', $id);
-        $id = $_GET['id'];
         $stmt->execute();
         $stmt->close();
-        $mysqli->close(); //fechando a conexão
+
+        $query = "DELETE FROM usuario WHERE user=$user";
+        $stmt = $connection->stmt_init();
+        $stmt->prepare($query);
+        $stmt->execute();
+        $stmt->close();
+        $connection->close();
+
+        header("Location: ../logout.php");
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 include_once('../data.base.connection/DBConnection.php');
+include_once('../model/usuario.php');
 
 function get_post_action($name)
 {
@@ -29,7 +30,6 @@ switch (get_post_action('save', 'edit', 'delet')) {
         $aluno->deletar_aluno();
         break;
 
-    default:
       
 }
 
@@ -39,41 +39,9 @@ class AlunoDAO
     
     public function inserir_aluno()
     {
-        ini_set('display_errors', 1);    
+        ini_set('display_errors', 1); 
         $connection = DBConnection::open();
-        
-
-        $query2 = "INSERT INTO usuario SET idUsuario=NULL, user= ?, senha=?, niveldeacesso=?";
-        $stmt = $connection->stmt_init();
-        $stmt->prepare($query2);
-        $stmt->bind_param('isi', $user, $senha, $niveldeacesso);
-        $user = $_POST['matricula'];
-        $senha = $_POST['senha'];
-        $niveldeacesso = 1;
-        $stmt->close();
-
-        $query = "INSERT INTO orientando SET idAluno=NULL, nome= ?,  matricula= ?,  curso= ?,  instituicao= ?, idUsuario=?";
-        $stmt->prepare($query);
-        $stmt->bind_param('sissi', $nome, $matricula, $curso, $instituicao, $idUsuario);
-        $nome = $_POST['nome'];
-        $matricula = $_POST['matricula'];
-        $curso = $_POST['curso'];
-        $instituicao = $_POST['instituicao'];
-        $idUsuario = $res;
-        $stmt->execute();
-
-        $stmt->close();
-        $connection->close();
-        //header("Location: ../view/Login/LoginView.html");
-        
-
-    }
-
-    public function editar_aluno()
-    {
-        ini_set('display_errors', 1);
-        $connection = DBConnection::open();
-        $query = "UPDATE orientando SET nome= ?,  matricula= ?,  curso= ?,  instituicao= ? WHERE idAluno=?";
+        $query = "INSERT INTO orientando SET nome= ?,  matricula= ?,  curso= ?,  instituicao= ?";
         $stmt = $connection->stmt_init();
         $stmt->prepare($query);
         $stmt->bind_param('siss', $nome, $matricula, $curso, $instituicao);
@@ -84,18 +52,55 @@ class AlunoDAO
         $stmt->execute();
         $stmt->close();
         $connection->close();
+        $senha = $_POST['senha'];
+        $nivel = 1;
+        $usuario = new Usuario();
+        $usuario->inserirUsuario($matricula, $senha, $nivel);
+        //$res = $usuario->find($matricula, $senha);
+        
+        header("Location: ../view/Login/login.html");
+        
+
+    }
+
+    public function editar_aluno()
+    {
+        session_start();
+        $user = $_SESSION['user'];
+        ini_set('display_errors', 1);
+        $connection = DBConnection::open();
+        $query = "UPDATE orientando SET nome= ?, curso= ?,  instituicao= ? WHERE matricula=$user";
+        $stmt = $connection->stmt_init();
+        $stmt->prepare($query);
+        $stmt->bind_param('ssi', $nome, $curso, $instituicao);
+        $nome = $_POST['nome'];
+        $curso = $_POST['curso'];
+        $instituicao = $_POST['instituicao'];
+        $stmt->execute();
+        $stmt->close();
+        $connection->close();
     }
 
     public function deletar_aluno()
     {
+        session_start();
+        $user = $_SESSION['user'];
         $connection = DBConnection::open();
-        $query = "DELETE FROM orientando WHERE idAluno=?";
+        $query = "DELETE FROM orientando WHERE matricula=$user";
         $stmt = $connection->stmt_init();
         $stmt->prepare($query);
-        $stmt->bind_param('i', $id);
-        $id = $_GET['id'];
+        //$stmt->bind_param($id);
+        //$id = $_GET['id'];
+        $stmt->execute();
+        $stmt->close();
+
+        $query = "DELETE FROM usuario WHERE user=$user";
+        $stmt = $connection->stmt_init();
+        $stmt->prepare($query);
         $stmt->execute();
         $stmt->close();
         $connection->close();
+
+        header("Location: ../logout.php");
     }
 }

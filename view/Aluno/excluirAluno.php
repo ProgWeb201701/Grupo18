@@ -20,7 +20,7 @@
     <ul class="nav navbar-nav">
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Perfil <span class="caret"></span></a>
         <ul class="dropdown-menu">
-					<li><a href="./editarUsuario.php">Editar Usuario</a></li>
+          <li><a href="./editarUsuario.php">Editar Usuario</a></li>
           <li><a href="./editarAluno.php">Editar Perfil</a></li>
           <li><a href="./excluirAluno.php">Excluir Perfil</a></li>
         </ul>
@@ -58,7 +58,7 @@ $query = "SELECT curso FROM curso WHERE codCurso=$curso";
 $result = $mysqli->query($query,MYSQLI_STORE_RESULT);
 if ($result->num_rows > 0) {
 	while ($row = $result->fetch_assoc()) {
-        $novocurso = $row['curso'];
+        $curso = $row['curso'];
 	}
 }
 
@@ -66,55 +66,25 @@ $query = "SELECT instituicao FROM instituicao WHERE idInstituicao=$instituicao";
 $result = $mysqli->query($query,MYSQLI_STORE_RESULT);
 if ($result->num_rows > 0) {
 	while ($row = $result->fetch_assoc()) {
-        $novainstituicao = $row['instituicao'];
+        $instituicao = $row['instituicao'];
 	}
 }
+
 ?>
 <div class="container">
 	<div class="formulario">
-	<h2>Dados do Cliente</h2>
+	<h2>Excluir Perfil</h2>
 	<form method="POST" action="../../model/alunoDAO.php">
 	<input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
-	<div class="editor-label"><label>Nome</label></div>
-	<div class="editor-field"><input class="form-control" type="text" name="nome" value="<?php echo htmlspecialchars($nome); ?>"></label></div>
-	<div class="editor-label"><label>Curso</label></div>
-		<div class="editor-field">
-		<select class="form-control" name="curso">
-		<option value="<?php echo htmlspecialchars($curso);?>"><?php echo htmlspecialchars($novocurso); ?></option>
-		<?php
-			$conexao = mysqli_connect("localhost", "root", "teste", "tcc");
-			$sql = "SELECT * FROM curso";
-			$sql = mysqli_query($conexao, $sql);
-			while ($row_result =mysqli_fetch_assoc($sql)) { ?>
-				<option value="<?php echo $row_result['codCurso']; ?>"> <?php echo $row_result['curso']; ?> </option>
-				<?php
-				}
-				$conexao->close();
-				?>
-		</select>
-	</div>
-  <div class="editor-label"><label>Instituição</label></div>
-	<div class="editor-field">
-		<select class="form-control" name="instituicao">
-		<option value="<?php echo htmlspecialchars($instituicao);?>"><?php echo htmlspecialchars($novainstituicao);?></option>
-		<?php
-			$conexao = mysqli_connect("localhost", "root", "teste", "tcc");
-			$sql = "SELECT * FROM instituicao";
-			$sql = mysqli_query($conexao, $sql);
-			while ($row_result =mysqli_fetch_assoc($sql)) { ?>
-				<option value="<?php echo $row_result['idInstituicao']; ?>"> <?php echo $row_result['instituicao']; ?> </option>
-				<?php
-				}
-				$conexao->close();
-				?>
-		</select>
-		<div>
-	</div>
+	<div class="editor-label">Nome: <?php echo htmlspecialchars($nome); ?></div>
+    <div class="editor-label">Matricula: <?php echo htmlspecialchars($matricula); ?></div>
+	<div class="editor-label">Curso: <?php echo htmlspecialchars($curso); ?></div>
+    <div class="editor-label">Instituição: <?php echo htmlspecialchars($instituicao); ?></div>
 	<br>
 	<div class="editor-field">
 		<center>
-		 <button id="edit" name="edit" type="submit" class="btn btn-success" value='Atualizar'>Salvar
-		 <i class='glyphicon glyphicon-floppy-disk'></i>
+		 <button id="delet" name="delet" type="submit" class="btn btn-danger" value='excluir'>Excluir
+		 <i class='glyphicon glyphicon-remove'></i>
 		 </button>
 		 </center>
 	</div>

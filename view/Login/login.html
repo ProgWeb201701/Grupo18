@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+
+    <style>
+        div.formulario {
+            width: 20%;
+            height: 50%;
+            margin: auto;
+            line-height: 2.2;
+            font-size: 15px;
+        }
+        
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">TCC</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Cadastrar <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../Aluno/cadastrarAluno.php">Aluno</a></li>
+                        <li><a href="../Professor/cadastrarProfessor.php">Professor</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="formulario">
+            <h2>Login</h2>
+            <form method="POST" action="login.php">
+                <div class="editor-label"><label>Usuario:</label></div>
+                <div class="editor-field"><label><input class="form-control" type="text" name="user" placeholder="Matricula ou Siep"></label></div>
+                <div class="editor-label"><label>Senha:</label></div>
+                <div class="editor-field"><label><input class="form-control" type="password" name="senha" placeholder="Senha"></label></div>
+                <br>
+                <div class="editor-field">
+                    <center>
+                        <button id="login" name="login" type="submit" class="btn btn-success">Login
+        <i class='glyphicon glyphicon-log-in'></i>
+        </button>
+                    </center>
+            </form>
+            </div>
+        </div>
+</body>
+
+</html>

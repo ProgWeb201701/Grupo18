@@ -45,23 +45,6 @@ include_once('../data.base.connection/DBConnection.php');
          }
      }
 
-     public function save()
-    {
-         $connection = DBConnection::open();
-
-        $sql = "INSERT INTO usuario (user, senha)
-        VALUES ('$this->usuario','$this->senha')";
-        $connection->query($sql);
-        $idUsuario =  $connection->insert_id;        
-         $connection->close();
-        return $idUsuario;
-     }
-     public function update()
-     {
-     }
-     public function delete()
-     {
-     }
     public function find($usuario, $senha)
      {
          $connection = DBConnection::open();
@@ -78,5 +61,15 @@ include_once('../data.base.connection/DBConnection.php');
          }
  
          $connection->close();
+         return $idUsuario;
      }
+
+     public function inserirUsuario($matricula, $senha, $nivel){
+        $connection = DBConnection::open();
+        $sql = "INSERT INTO usuario (`senha`, `user`, `niveldeacesso`) VALUES ('$senha', '$matricula', '$nivel')";
+        $connection->query($sql);
+        $connection->close();
+     }
+
+
  }

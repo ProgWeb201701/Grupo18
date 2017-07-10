@@ -1,20 +1,19 @@
 <?php
-	/**
-	* 
-	*/
+
+
 	class Aluno{
 		private $nome_aluno;
 		private $matricula;
 		private $curso;
 		private $instituicao;
 		
-		function __construct($nome_aluno, $matricula, $curso, $instituicao){
+		/*function __construct($nome_aluno, $matricula, $curso, $instituicao){
 			$this->nome_aluno = $nome_aluno;
 			$this->matricula = $matricula;
 			$this->curso = $curso;
 			$this->instituicao = $instituicao;
 		}
-
+*/
 		public function get_nome_aluno(){
 			return $this->nome;
 		}
@@ -49,6 +48,22 @@
 
 		}
 
+		public function findIdAluno($matricula, $senha)
+     	{
+         $connection = new mysqli("localhost","root","teste", "tcc");
+ 
+        $sql = "SELECT idAluno FROM orientando WHERE matricula='$matricula'";
+ 
+         $result = $connection->query($sql);
+         $resultArray = $result->fetch_array(MYSQLI_ASSOC);
+ 
+         if ($result->num_rows == 1) {
+             $this->idAluno = $resultArray['idAluno'];
+         }
+ 
+         $connection->close();
+         return $idAluno;
+     }
 
 	}
 
